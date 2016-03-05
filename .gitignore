@@ -1,0 +1,6 @@
+pybsm.egg-info
+__pycache__
+.eggs
+.cache
+.env
+*.*~
