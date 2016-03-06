@@ -9,7 +9,7 @@ setup(name='pybsm',
       author='Supergravity Foundation',
       author_email='',
       url='https://github.com/supergravity-org/pybsm/',
-      packages=find_packages(),
+      packages=find_packages(exclude=["tests"]),
       test_suite='tests',
       setup_requires=[
         'pytest-runner',
