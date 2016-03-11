@@ -20,7 +20,8 @@ setup(name='pybsm',
       setup_requires=[
         'pytest-runner',
         'pytest',
-        'pytest-cov'
+        'pytest-cov',
+        'sphinx'
       ],
       test_args=[
         '--cov=pybsm'
