@@ -1,4 +1,4 @@
-from pybsm.galaxy import Galaxy, GalaxyWarning, GalaxyExeception, QBTwisting, MatterType
+from pybsm.galaxy import Galaxy, GalaxyWarning, GalaxyException, QBTwisting, MatterType
 from pybsm import particles
 import unittest
 
@@ -11,14 +11,30 @@ class TestGalaxy(unittest.TestCase):
                          "Number of particles should be 35")
 
     def test_galaxy_validation(self):
-        with self.assertRaises(GalaxyExeception):
+        with self.assertRaises(GalaxyException):
             Galaxy(qb_crystal_depth=3, qb_destruction_depth=4)
-        with self.assertRaises(GalaxyExeception):
+        with self.assertRaises(GalaxyException):
             Galaxy(qb_crystal_depth=3, qb_destruction_depth=3)
-        with self.assertRaises(GalaxyWarning):
+        with self.assertRaises(GalaxyException):
             Galaxy(qb_crystal_depth=3, qb_destruction_depth=2)
         with self.assertRaises(GalaxyWarning):
+            self.assertTrue(Galaxy(qb_crystal_depth=3, qb_destruction_depth=1))
+        with self.assertRaises(GalaxyException):
+            Galaxy(qb_crystal_depth=3, qb_destruction_depth=0)
+
+        with self.assertRaises(GalaxyException):
+            Galaxy(qb_crystal_depth=4, qb_destruction_depth=4)
+        with self.assertRaises(GalaxyException):
+            Galaxy(qb_crystal_depth=4, qb_destruction_depth=3)
+        # this is a valid possibility
+        self.assertTrue(Galaxy(qb_crystal_depth=4, qb_destruction_depth=2))
+        with self.assertRaises(GalaxyWarning):
+            Galaxy(qb_crystal_depth=4, qb_destruction_depth=1)
+
+        with self.assertRaises(GalaxyException):
             Galaxy(qb_crystal_depth=2, qb_destruction_depth=1)
+        with self.assertRaises(GalaxyException):
+            Galaxy(qb_crystal_depth=2, qb_destruction_depth=0)
 
         tg = Galaxy(qb_crystal_depth=6, qb_destruction_depth=3)
         self.assertTrue(tg.validate(), "should create a valid Galaxy")
@@ -32,7 +48,7 @@ class TestGalaxy(unittest.TestCase):
         class FakeFP(particles.FP):
             pass
 
-        with self.assertRaises(GalaxyExeception):
+        with self.assertRaises(GalaxyException):
             mg.twisting_for_qb(FakeFP)
 
         # test antimatter galaxy

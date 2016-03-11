@@ -2,9 +2,15 @@
 
 # from distutils.core import setup, find_packages
 from setuptools import setup, find_packages
+from pybsm.__init__ import __version__
+import os.path
+
+with open(os.path.join(os.path.dirname(__file__),
+                       'requirements.txt')) as f:
+    required = f.read().splitlines()
 
 setup(name='pybsm',
-      version='0.1',
+      version=__version__,
       description='BSM-SG ',
       author='Supergravity Foundation',
       author_email='',
@@ -13,10 +19,16 @@ setup(name='pybsm',
       test_suite='tests',
       setup_requires=[
         'pytest-runner',
-        'cached_property'
-      ],
-      tests_require=[
         'pytest',
-        'pylama'
+        'pytest-cov'
+      ],
+      test_args=[
+        '--cov=pybsm'
+      ],
+      install_requires=required,
+      tests_require=required + [
+        'pytest',
+        'pylama',
+        'pytest-cov',
       ],
       )

@@ -1,3 +1,5 @@
 cached-property
 pylama
 pytest
+enum34
+pint

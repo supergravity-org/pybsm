@@ -10,7 +10,7 @@ class TestCodeFormat(unittest.TestCase):
         from pylama.main import parse_options, process_paths
         from pylama.config import LOGGER
         LOGGER.setLevel(logging.WARN)
-        options = parse_options(['.'],
+        options = parse_options(['pybsm'],
                                 verbose=False
                                 )
         errors = process_paths(options, error=False)

@@ -4,3 +4,8 @@ __pycache__
 .cache
 .env
 *.*~
+*,cover
+*.pyc
+build
+docs/modules.rst
+docs/pybsm.rst

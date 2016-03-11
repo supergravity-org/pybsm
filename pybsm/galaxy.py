@@ -13,14 +13,14 @@ See BSM-SG Book Chapter 12 for a detailed explanation of the process.
 
 from cached_property import cached_property
 from .particles import FPLarge, FPSmall
-from enum import Enum
+from enum import IntEnum, Enum
 
 
 class QBTwisting(Enum):
     """
-    Defines Matter/Antimatter possibilities.
+    A Quasiball must have a internal twisting due geometric considerations.
 
-    QBTwisting is used to encode the twisitng of QB1 (QuasiBall Type 1).
+    QBTwisting is used to repersent this twisting posibility.
     """
     left = 1
     right = 2
@@ -34,10 +34,11 @@ class MatterType(Enum):
     antimatter = 2
 
 
-class PrismGrade(Enum):
+class PrismGrade(IntEnum):
     """
     Quality of shaped prisms
     """
+    __order__ = 'low good very_good'
     low = 1
     good = 2
     very_good = 3
@@ -49,7 +50,7 @@ class GalaxyWarning(Warning):
     """
 
 
-class GalaxyExeception(Exception):
+class GalaxyException(Exception):
     """
     The selected parameters are impossible
     """
@@ -84,10 +85,12 @@ class Galaxy(object):
 
     def validate(self):
         if self.qb_crystal_depth - self.qb_destruction_depth <= 0:
-            raise GalaxyExeception("qb_destruction_depth can't be larger then qb_crystal_depth + 1")
+            raise GalaxyException("qb_destruction_depth can't be larger then qb_crystal_depth + 1")
+        if self.qb_crystal_depth - self.qb_destruction_depth <= 1:
+            raise GalaxyException("qb_crystal_depth - qb_destruction_depth must be larger then 1")
         if self.qb_destruction_depth < 1:
-            raise GalaxyExeception("qb_destruction_depth needs to be at least 1")
-        if self.qb_crystal_depth - self.qb_destruction_depth == 1:
+            raise GalaxyException("qb_destruction_depth needs to be at least 1")
+        if self.prism_grade < PrismGrade.good:
             raise GalaxyWarning("Bad prism_grade")
         return True
 
@@ -96,7 +99,7 @@ class Galaxy(object):
         """
         Quality of prisms formation. Number of QP per prism.
         """
-        if self.qb_destruction_depth == 1:
+        if self.qb_destruction_depth <= 1:
             return PrismGrade.low
         elif self.qb_destruction_depth == 2:
             return PrismGrade.good
@@ -138,13 +141,13 @@ class Galaxy(object):
             elif issubclass(fp, FPSmall):
                 return QBTwisting.left
             else:
-                raise GalaxyExeception("unknown fp type")
+                raise GalaxyException("unknown fp type")
         elif self.matter == MatterType.antimatter:
             if issubclass(fp, FPLarge):
                 return QBTwisting.left
             elif issubclass(fp, FPSmall):
                 return QBTwisting.right
             else:
-                raise GalaxyExeception("unknown fp type")
+                raise GalaxyException("unknown fp type")
         else:
-            raise GalaxyExeception("unknown matter type")
+            raise GalaxyException("unknown matter type")
