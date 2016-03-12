@@ -1,7 +1,6 @@
 language: python
 python:
   - "2.7"
-  - "3.2"
   - "3.3"
   - "3.4"
   - "3.5"
@@ -11,10 +10,10 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
-  - python setup.py build
 
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION != '3.2' ]]; then python setup.py docs; fi
+  - python setup.py build
+  - python setup.py docs
   - coverage run --source=pybsm setup.py test
 
 # command to run tests
