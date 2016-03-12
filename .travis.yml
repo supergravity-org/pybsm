@@ -7,11 +7,6 @@ python:
   - "3.5"
   - "nightly" # currently points to 3.6-dev
 
-addons:
-  code_climate:
-    repo_token:
-      secure: "MYL3Qrur6/2VtPdh8FD81Yu5Yo84druK4SVrnR9UH87sZxUn34PsGlQdUu0Litjn/ASVn4JUUhmTEFvCREUrGbFhGS6Dyu1nehHHCzXmLkGZBHZWwuhv7PqDYM1rAIqhL1QXNsUGpSdF+cHfF+z4PIdLTuY0OAUq9+IL3g3oF4KfQQYvQ51VDQvbsP7LJQ8lHjmROOKYpyY6QtU+yOcWZ/O7IsxESUsklKVDXtg36eqIhRE+wTFfrAddmVi1Jx65z3SJjOhk//2Frb8+nsU8MuDB2AwPeT4LpJcc9kP1K9QRV9L65SUBvPwwyaS8Mibt0i6ftZk3YQC5OYdXj8vFm9NvpqFhKPtgJOLt2baXkkpBh1cdFBCKf0i35nMto5WnwRF3j+L28A5K2Oa4id30u/yWRh0n5YeplH2r0Njg8op2q8iat0BhpBTpta02zEo8SoxplkG85e8nye5tVswHfa/QziaMOt5eFnhH8oCMPLzLiU0XGzbPpTSTU40MohfpjbATAOCKvzIs56uJT7zGob+glN94RZMS9GYZ1yXflgKAvet/oKn8ChWHuBkGiZamh/nrZXa8QZKhT2dWyiv1M8DEoTeI1HgP/k/q3UlN3OAm0fF74sK4W9YgMZAwrSLERQ5LVPlEIsfcrLlqUJOjXwRynjB56AgidoVnXw6SDLg="
-
 # command to install dependencies
 install:
   - pip install -r requirements.txt
@@ -19,7 +14,7 @@ install:
   - python setup.py build
 
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION != 3.2* ]]; then python setup.py docs; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2' ]]; then python setup.py docs; fi
   - coverage run --source=pybsm setup.py test
 
 # command to run tests
